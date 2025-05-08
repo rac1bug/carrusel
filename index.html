@@ -190,21 +190,6 @@
   overflow: hidden;
 }
 
-/* Fade izquierdo */
-.slider-fade-wrapper::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 80px;
-  height: 100%;
-  pointer-events: none;
-  background: linear-gradient(to left, transparent, var(--color-bg));
-  z-index: 10;
-  opacity:  var(--fade-left-opacity, 0);
-  transition: opacity 0.3s ease;
-}
-
 .slider-fade-wrapper::after {
   content: "";
   position: absolute;
@@ -256,9 +241,6 @@
     container.addEventListener('scroll', () => {
       const scrollLeft = container.scrollLeft;
       const maxScroll = container.scrollWidth - container.clientWidth;
-  
-      // Mostrar fade izquierdo si no estamos al inicio
-      fadeWrapper.style.setProperty('--fade-left-opacity', scrollLeft > 10 ? '1' : '0');
   
       // Mostrar fade derecho si no estamos al final
       fadeWrapper.style.setProperty('--fade-right-opacity', scrollLeft < maxScroll - 10 ? '1' : '0');
