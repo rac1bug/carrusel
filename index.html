@@ -142,11 +142,13 @@
 
     /* Slider Carrusel */
     .slider-container {
+      display: flex;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       -ms-overflow-style: none;
+      padding: 1rem;
     }
 
     .slider-container::-webkit-scrollbar {
@@ -156,13 +158,11 @@
     .slider {
       display: flex;
       gap: 1rem;
-      padding: 1rem;
-      width: max-content;
     }
 
     .slide {
-      flex: 0 0 auto;
-      width: 100vw;
+      flex: 0 0 85%;
+      width: 85%;
   height: 60vw; /* ajustable según tu diseño */
   border-radius: 1rem;
   overflow: hidden;
@@ -184,6 +184,23 @@
         height: 280px;
       }
     }
+
+    .slider-fade-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-fade-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 80px; /* ajusta según necesidad */
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(to right, transparent, var(--color-bg));
+  z-index: 10;
+}
   </style>
 </head>
 <body>
@@ -204,6 +221,7 @@
   </header>
 
   <main class="content">
+    <div class="slider-fade-wrapper">
     <div class="slider-container">
       <div class="slider">
         <div class="slide"><img src="1.jpg" alt="Imagen 1"></div>
@@ -211,6 +229,7 @@
         <div class="slide"><img src="3.jpg" alt="Imagen 3"></div>
       </div>
     </div>
+  </div>
   </main>
 
 </body>
