@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sticky Navbar + Slider Carrusel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #1e1e28;
+      --color-card: rgba(40, 40, 56, 0.85);
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-text: #f4f4f5;
+      --color-accent: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    header.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--color-card);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    /* Hamburguesa */
+    .menu-toggle {
+      display: none;
+    }
+
+    .menu-icon {
+      cursor: pointer;
+      width: 28px;
+      height: 22px;
+      position: relative;
+      display: none;
+    }
+
+    .menu-icon span {
+      background: var(--color-text);
+      position: absolute;
+      height: 3px;
+      width: 100%;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    .menu-icon span:nth-child(1) { top: 0; }
+    .menu-icon span:nth-child(2) { top: 9px; }
+    .menu-icon span:nth-child(3) { top: 18px; }
+
+    nav.nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav.nav-links a {
+      color: var(--color-text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav.nav-links a:hover {
+      color: var(--color-accent);
+    }
+
+    @media (max-width: 768px) {
+      nav.nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--color-card);
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+        display: none;
+      }
+
+      .menu-toggle:checked ~ .menu-icon span:nth-child(1) {
+        transform: rotate(45deg);
+        top: 9px;
+      }
+
+      .menu-toggle:checked ~ .menu-icon span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle:checked ~ .menu-icon span:nth-child(3) {
+        transform: rotate(-45deg);
+        top: 9px;
+      }
+
+      .menu-toggle:checked ~ nav.nav-links {
+        display: flex;
+      }
+
+      nav.nav-links a {
+        font-size: 1.1rem;
+      }
+
+      .menu-icon {
+        display: block;
+      }
+    }
+
+    .content {
+      padding: 4rem 1rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .content p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      color: #e2e8f0;
+    }
+
+    /* Slider Carrusel */
+    .slider-container {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .slider-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slider {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      width: max-content;
+    }
+
+    .slide {
+      flex: 0 0 auto;
+      width: 100vw;
+  height: 60vw; /* ajustable según tu diseño */
+  border-radius: 1rem;
+  overflow: hidden;
+  scroll-snap-align: start;
+  position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (min-width: 769px) {
+      .slide {
+        flex: 0 0 40%;
+        max-width: 40%;
+        height: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <h1>Frontend Pro</h1>
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+    <label for="menu-toggle" class="menu-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+    <nav class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="#">Proyectos</a>
+      <a href="#">Contacto</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <div class="slider-container">
+      <div class="slider">
+        <div class="slide"><img src="1.jpg" alt="Imagen 1"></div>
+        <div class="slide"><img src="2.jpg" alt="Imagen 2"></div>
+        <div class="slide"><img src="3.jpg" alt="Imagen 3"></div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
