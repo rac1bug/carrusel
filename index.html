@@ -135,6 +135,7 @@
       aspect-ratio: 16/9;
       object-fit: cover;
       border-radius: 12px;
+      cursor: pointer;
       transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.3s ease;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
       background-color: #1e293b;
@@ -199,6 +200,7 @@
 }
 
 .modal-dialog {
+  position: relative;
   background: transparent; /* Sin fondo */
   border-radius: 16px;
   max-width: 90%;
@@ -221,14 +223,19 @@
 
 .close-modal {
   position: absolute;
-  top: 12px;
-  right: 16px;
-  font-size: 28px;
-  font-weight: bold;
+  top: 20px;
+  right: 20px;
+  font-size: 40px;
+  font-weight: 300;
   color: #fff;
   cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s;
+  transition: all 0.3s ease;
   z-index: 10000;
+  width: 50px; /* Tamaño fijo para mejor click */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .close-modal:hover {
@@ -413,13 +420,13 @@
   const modalCaption = document.getElementById('modalCaption');
   const closeModalBtn = document.querySelector('.close-modal');
 
-  images.forEach(img => {
-    img.addEventListener('click', () => {
-      modal.classList.add('show');
-      modalImg.src = img.src;
-      modalCaption.textContent = img.alt;
-    });
-  });
+  gallery.addEventListener('click', (e) => {
+  if (e.target.tagName === 'IMG') {
+    modal.classList.add('show');
+    modalImg.src = e.target.src;
+    modalCaption.textContent = e.target.alt;
+  }
+});
 
   // Cerrar modal al hacer clic en el botón ×
   closeModalBtn.addEventListener('click', () => {
