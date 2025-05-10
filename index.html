@@ -134,16 +134,19 @@
       height: 100%;
       aspect-ratio: 16/9;
       object-fit: cover;
-      border-radius: 20px;
+      border-radius: 12px;
       transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.3s ease;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
       background-color: #1e293b;
       filter: contrast(1.1) saturate(1.2) brightness(1.05);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background-color: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(2px);
     }
 
     .gallery img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      transform: scale(1.01);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
       filter: contrast(1.2) saturate(1.4) brightness(1.1);
     }
 
@@ -156,9 +159,10 @@
 
     @media (max-width: 480px) {
   .gallery {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     padding: 1rem;
-    gap: 1rem;
+    gap: 1.2rem;
+    border-radius: 8px;
   }
 }
 
@@ -176,6 +180,94 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7); /* Fondo oscuro transparente */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.show {
+  display: flex;
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.modal-dialog {
+  background: transparent; /* Sin fondo */
+  border-radius: 16px;
+  max-width: 90%;
+  width: 100%;
+  max-height: 90%;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  position: relative;
+  animation: zoomIn 0.3s ease-out;
+}
+
+.modal-dialog img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.close-modal {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s;
+  z-index: 10000;
+}
+
+.close-modal:hover {
+  color: #f87171;
+  transform: rotate(90deg);
+}
+
+#modalCaption {
+  font-size: 1rem;
+  color: #f3f4f6;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (min-width: 640px) {
+  .modal-dialog {
+    max-width: 600px;
+  }
+
+  #modalCaption {
+    font-size: 1.125rem;
   }
 }
   </style>
@@ -216,6 +308,14 @@
   </section>
 
   <div class="loader" id="loader"></div>
+
+  <div id="imageModal" class="modal">
+  <div class="modal-dialog">
+    <span class="close-modal">&times;</span>
+    <img id="modalImg" src="" alt="">
+    <p id="modalCaption"></p>
+  </div>
+</div>
 
   <script>
     const navMain = document.getElementById('navMain');
@@ -305,6 +405,33 @@
         closeBtn.classList.remove('visible');
       }
     });
+
+   // Abrir el modal cuando se hace clic en cualquier imagen
+  const images = document.querySelectorAll('.gallery img');
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalCaption = document.getElementById('modalCaption');
+  const closeModalBtn = document.querySelector('.close-modal');
+
+  images.forEach(img => {
+    img.addEventListener('click', () => {
+      modal.classList.add('show');
+      modalImg.src = img.src;
+      modalCaption.textContent = img.alt;
+    });
+  });
+
+  // Cerrar modal al hacer clic en el botón ×
+  closeModalBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+
+  // Cerrar modal al hacer clic fuera del contenido
+  modal.addEventListener('click', (e) => {
+    if (!e.target.closest('.modal-dialog')) {
+      modal.classList.remove('show');
+    }
+  });
   </script>
 
 </body>
