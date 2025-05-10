@@ -142,8 +142,16 @@
       filter: contrast(1.1) saturate(1.2) brightness(1.05);
       border: 1px solid rgba(255, 255, 255, 0.05);
       background-color: rgba(255, 255, 255, 0.02);
+      background: linear-gradient(45deg, #1e293b 25%, #334155 100%);
+  animation: placeholder-shimmer 1.5s infinite linear;
   backdrop-filter: blur(2px);
+  
     }
+
+    @keyframes placeholder-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
 
     .gallery img:hover {
       transform: scale(1.01);
@@ -165,6 +173,7 @@
     gap: 1.2rem;
     border-radius: 8px;
   }
+  
 }
 
 .loader {
@@ -192,6 +201,7 @@
   background: rgba(0, 0, 0, 0.7); /* Fondo oscuro transparente */
   justify-content: center;
   align-items: center;
+  
 }
 
 .modal.show {
@@ -277,6 +287,193 @@
     font-size: 1.125rem;
   }
 }
+
+.favorite-btn {
+  position: absolute;
+  top: 20px;
+  right: 60px;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent; /* sin fondo */
+  transition: transform 0.3s ease;
+  z-index: 10000;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.15);
+}
+
+.favorite-btn .material-symbols-outlined {
+  font-size: 26px;
+  color: #fff; /* más neutro */
+  transition: all 0.3s ease;
+}
+
+.favorite-btn.active .material-symbols-outlined {
+  color: #ef4444;
+  font-variation-settings: 'FILL' 1;
+  animation: heartbeat 0.4s ease;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.3); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Tablets (≥768px) */
+@media (min-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    padding: 2.5rem 3rem;
+    gap: 2rem;
+  }
+
+  nav h1 {
+    font-size: 1.8rem;
+  }
+
+  .material-symbols-outlined {
+    font-size: 32px;
+  }
+
+  .nav-main {
+    width: auto;
+    gap: 2rem;
+  }
+  
+  .search-icon {
+    display: none;
+  }
+  
+  .search-box {
+    display: flex;
+    width: auto;
+    position: static;
+    max-width: 400px;
+  }
+  
+  .search-box input {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+  
+  .close-btn {
+    right: 0.8rem;
+    font-size: 1.1rem;
+  }
+  
+  nav h1 {
+    font-size: 1.8rem;
+    white-space: nowrap;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2.5rem 5%;
+  }
+  
+  .gallery img {
+    aspect-ratio: 1.4/1;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gallery img:hover {
+    transform: scale(1.02) translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .modal-dialog {
+    max-width: 80%;
+    padding: 2rem;
+  }
+  
+  .modal-dialog img {
+    max-height: 75vh;
+    object-fit: contain;
+  }
+  
+  .close-modal {
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2.5rem;
+  }
+  
+  .favorite-btn {
+    right: 4.5rem;
+    top: 1.7rem;
+  }
+}
+
+/* Pantallas grandes (≥1024px) */
+@media (min-width: 1024px) {
+  body {
+    font-size: 1.1rem;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 4rem;
+    gap: 2.5rem;
+  }
+
+  nav {
+    padding: 1rem 2rem;
+    height: 70px;
+  }
+
+  .search-box input {
+    font-size: 1.1rem;
+    padding: 0.8rem 3rem 0.8rem 1.2rem;
+  }
+
+  .modal-dialog {
+    max-width: 800px;
+  }
+
+  #modalCaption {
+    font-size: 1.25rem;
+    padding: 0 10%;
+  }
+
+  nav {
+    padding: 0.5rem 4%;
+  }
+  
+  .search-box input {
+    width: 400px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .gallery {
+    max-width: 1440px;
+    margin: 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  }
+}
+
+@media (hover: none) {
+  .gallery img:hover {
+    transform: none;
+    filter: none;
+  }
+}
   </style>
 </head>
 <body>
@@ -300,18 +497,78 @@
   </nav>
 
   <section class="gallery">
-    <img src="https://picsum.photos/id/1011/600/400" alt="Montaña">
-    <img src="https://picsum.photos/id/1012/600/400" alt="Bosque">
-    <img src="https://picsum.photos/id/1013/600/400" alt="Playa">
-    <img src="https://picsum.photos/id/1014/600/400" alt="Desierto">
-    <img src="https://picsum.photos/id/1015/600/400" alt="Ciudad">
-    <img src="https://picsum.photos/id/1016/600/400" alt="Lago">
-    <img src="https://picsum.photos/id/1011/600/400" alt="Montaña">
-    <img src="https://picsum.photos/id/1012/600/400" alt="Bosque">
-    <img src="https://picsum.photos/id/1013/600/400" alt="Playa">
-    <img src="https://picsum.photos/id/1014/600/400" alt="Desierto">
-    <img src="https://picsum.photos/id/1015/600/400" alt="Ciudad">
-    <img src="https://picsum.photos/id/1016/600/400" alt="Lago">
+    <img 
+    src="https://picsum.photos/id/1011/400/267"
+    srcset="
+      https://picsum.photos/id/1011/400/267 400w,
+      https://picsum.photos/id/1011/800/534 800w,
+      https://picsum.photos/id/1011/1200/800 1200w
+    "
+    sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw"
+    alt="Montaña"
+    loading="lazy"
+    decoding="async"
+  >
+  <img 
+    src="https://picsum.photos/id/1012/400/267"
+    srcset="
+      https://picsum.photos/id/1012/400/267 400w,
+      https://picsum.photos/id/1012/800/534 800w,
+      https://picsum.photos/id/1012/1200/800 1200w
+    "
+    sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw"
+    alt="Bosque"
+    loading="lazy"
+    decoding="async"
+  >
+  <img 
+    src="https://picsum.photos/id/1013/400/267"
+    srcset="
+      https://picsum.photos/id/1013/400/267 400w,
+      https://picsum.photos/id/1013/800/534 800w,
+      https://picsum.photos/id/1013/1200/800 1200w
+    "
+    sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw"
+    alt="Playa"
+    loading="lazy"
+    decoding="async"
+  >
+  <img 
+    src="https://picsum.photos/id/1014/400/267"
+    srcset="
+      https://picsum.photos/id/1014/400/267 400w,
+      https://picsum.photos/id/1014/800/534 800w,
+      https://picsum.photos/id/1014/1200/800 1200w
+    "
+    sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw"
+    alt="Desierto"
+    loading="lazy"
+    decoding="async"
+  >
+  <img 
+    src="https://picsum.photos/id/1015/400/267"
+    srcset="
+      https://picsum.photos/id/1015/400/267 400w,
+      https://picsum.photos/id/1015/800/534 800w,
+      https://picsum.photos/id/1015/1200/800 1200w
+    "
+    sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw"
+    alt="Ciudad"
+    loading="lazy"
+    decoding="async"
+  >
+  <img 
+    src="https://picsum.photos/id/1016/400/267"
+    srcset="
+      https://picsum.photos/id/1016/400/267 400w,
+      https://picsum.photos/id/1016/800/534 800w,
+      https://picsum.photos/id/1016/1200/800 1200w
+    "
+    sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw"
+    alt="Lago"
+    loading="lazy"
+    decoding="async"
+  >
   </section>
 
   <div class="loader" id="loader"></div>
@@ -319,6 +576,9 @@
   <div id="imageModal" class="modal">
   <div class="modal-dialog">
     <span class="close-modal">&times;</span>
+    <button id="favoriteBtn" class="favorite-btn">
+      <span class="material-symbols-outlined">favorite</span>
+    </button>
     <img id="modalImg" src="" alt="">
     <p id="modalCaption"></p>
   </div>
@@ -333,33 +593,184 @@
     const loader = document.getElementById('loader');
   
     const imageSources = [
-      { src: 'https://picsum.photos/id/1011/600/400', alt: 'Montaña' },
-      { src: 'https://picsum.photos/id/1012/600/400', alt: 'Bosque' },
-      { src: 'https://picsum.photos/id/1013/600/400', alt: 'Playa' },
-      { src: 'https://picsum.photos/id/1014/600/400', alt: 'Desierto' },
-      { src: 'https://picsum.photos/id/1015/600/400', alt: 'Ciudad' },
-      { src: 'https://picsum.photos/id/1016/600/400', alt: 'Lago' },
-      { src: 'https://picsum.photos/id/1020/600/400', alt: 'Nieve' },
-      { src: 'https://picsum.photos/id/1021/600/400', alt: 'Campo' },
-      { src: 'https://picsum.photos/id/1022/600/400', alt: 'Océano' },
-      { src: 'https://picsum.photos/id/1023/600/400', alt: 'Montaña nevada' },
-      { src: 'https://picsum.photos/id/1024/600/400', alt: 'Río' },
-      { src: 'https://picsum.photos/id/1025/600/400', alt: 'Atardecer' },
-    ];
+  {
+    src: 'https://picsum.photos/id/1011/400/267',
+    srcset: `
+      https://picsum.photos/id/1011/400/267 400w,
+      https://picsum.photos/id/1011/800/534 800w,
+      https://picsum.photos/id/1011/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Montaña',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1012/400/267',
+    srcset: `
+      https://picsum.photos/id/1012/400/267 400w,
+      https://picsum.photos/id/1012/800/534 800w,
+      https://picsum.photos/id/1012/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Bosque',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1013/400/267',
+    srcset: `
+      https://picsum.photos/id/1013/400/267 400w,
+      https://picsum.photos/id/1013/800/534 800w,
+      https://picsum.photos/id/1013/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Playa',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1014/400/267',
+    srcset: `
+      https://picsum.photos/id/1014/400/267 400w,
+      https://picsum.photos/id/1014/800/534 800w,
+      https://picsum.photos/id/1014/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Desierto',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1015/400/267',
+    srcset: `
+      https://picsum.photos/id/1015/400/267 400w,
+      https://picsum.photos/id/1015/800/534 800w,
+      https://picsum.photos/id/1015/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Ciudad',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1016/400/267',
+    srcset: `
+      https://picsum.photos/id/1016/400/267 400w,
+      https://picsum.photos/id/1016/800/534 800w,
+      https://picsum.photos/id/1016/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Lago',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  // Repetir el mismo patrón para las demás imágenes
+  {
+    src: 'https://picsum.photos/id/1020/400/267',
+    srcset: `
+      https://picsum.photos/id/1020/400/267 400w,
+      https://picsum.photos/id/1020/800/534 800w,
+      https://picsum.photos/id/1020/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Nieve',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1021/400/267',
+    srcset: `
+      https://picsum.photos/id/1021/400/267 400w,
+      https://picsum.photos/id/1021/800/534 800w,
+      https://picsum.photos/id/1021/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Campo',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1022/400/267',
+    srcset: `
+      https://picsum.photos/id/1022/400/267 400w,
+      https://picsum.photos/id/1022/800/534 800w,
+      https://picsum.photos/id/1022/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Océano',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1023/400/267',
+    srcset: `
+      https://picsum.photos/id/1023/400/267 400w,
+      https://picsum.photos/id/1023/800/534 800w,
+      https://picsum.photos/id/1023/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Montaña nevada',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1024/400/267',
+    srcset: `
+      https://picsum.photos/id/1024/400/267 400w,
+      https://picsum.photos/id/1024/800/534 800w,
+      https://picsum.photos/id/1024/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Río',
+    loading: 'lazy',
+    decoding: 'async'
+  },
+  {
+    src: 'https://picsum.photos/id/1025/400/267',
+    srcset: `
+      https://picsum.photos/id/1025/400/267 400w,
+      https://picsum.photos/id/1025/800/534 800w,
+      https://picsum.photos/id/1025/1200/800 1200w
+    `,
+    sizes: '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw',
+    alt: 'Atardecer',
+    loading: 'lazy',
+    decoding: 'async'
+  }
+];
   
     let imagesPerLoad = 5;
     let currentIndex = 0;
+    let observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      img.srcset = img.dataset.srcset;
+      observer.unobserve(img);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '200px' });
   
     function loadImages() {
-      const nextImages = imageSources.slice(currentIndex, currentIndex + imagesPerLoad);
-      nextImages.forEach(img => {
-        const image = document.createElement('img');
-        image.src = img.src;
-        image.alt = img.alt;
-        gallery.appendChild(image);
-      });
-      currentIndex += imagesPerLoad;
-    }
+  const nextImages = imageSources.slice(currentIndex, currentIndex + imagesPerLoad);
+  nextImages.forEach(img => {
+    const image = document.createElement('img');
+    image.src = img.src;
+    image.srcset = img.srcset;
+    image.sizes = img.sizes;
+    image.alt = img.alt;
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.style.aspectRatio = '16/9';
+    gallery.appendChild(image);
+    image.dataset.src = img.src;
+  image.dataset.srcset = img.srcset;
+  observer.observe(image);
+  });
+  currentIndex += imagesPerLoad;
+}
   
     function showLoader() {
       loader.style.display = 'block';
@@ -424,6 +835,8 @@
   if (e.target.tagName === 'IMG') {
     modal.classList.add('show');
     modalImg.src = e.target.src;
+    modalImg.loading = 'eager';
+modalImg.decoding = 'auto';
     modalCaption.textContent = e.target.alt;
   }
 });
@@ -439,6 +852,64 @@
       modal.classList.remove('show');
     }
   });
+
+  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+const favoriteBtn = document.getElementById('favoriteBtn');
+
+// Modifica el evento de clic en las imágenes
+gallery.addEventListener('click', (e) => {
+  if (e.target.tagName === 'IMG') {
+    const imgSrc = e.target.src;
+    const imgAlt = e.target.alt;
+    const img = e.target;
+    const highResSrc = img.srcset.split(', ').pop().split(' ')[0];
+    
+    // Cargar versión de alta resolución
+    modalImg.src = highResSrc;
+    modalImg.srcset = img.srcset;
+    modalImg.sizes = '(max-width: 768px) 90vw, 70vw';
+    
+    // Actualizar estado del botón favorito
+    const isFavorite = favorites.some(fav => fav.src === imgSrc);
+    favoriteBtn.classList.toggle('active', isFavorite);
+    
+    // Guardar referencia de la imagen actual
+    currentImage = { src: imgSrc, alt: imgAlt };
+    
+    // Mostrar modal
+    modal.classList.add('show');
+    modalImg.src = imgSrc;
+    modalCaption.textContent = imgAlt;
+  }
+});
+
+// Evento para el botón de favoritos
+favoriteBtn.addEventListener('click', () => {
+  favoriteBtn.classList.toggle('active');
+  
+  if (favoriteBtn.classList.contains('active')) {
+    // Agregar a favoritos
+    if (!favorites.some(fav => fav.src === currentImage.src)) {
+      favorites.push(currentImage);
+    }
+  } else {
+    // Quitar de favoritos
+    favorites = favorites.filter(fav => fav.src !== currentImage.src);
+  }
+  
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+});
+
+// Función para mostrar favoritos (agrega esto)
+function showFavorites() {
+  gallery.innerHTML = ''; // Limpiar galería
+  favorites.forEach(fav => {
+    const img = document.createElement('img');
+    img.src = fav.src;
+    img.alt = fav.alt;
+    gallery.appendChild(img);
+  });
+}
   </script>
 
 </body>
